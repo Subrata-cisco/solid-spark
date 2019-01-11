@@ -5,7 +5,7 @@ import org.apache.spark.sql.SparkSession
 
 object CreatePOIDInHive {
   
-  case class hiveData(eventId: String, otherData: String, poid: String)
+  case class hiveData(eventId: String,otherData: String, poid: String)
 
   def createHiveData(line: String): hiveData = {
     val fields = line.split("\\s+")
@@ -17,8 +17,10 @@ object CreatePOIDInHive {
     if(fields.length > 1){
       col2 = fields(1).toString()
       val othetDataFields = col2.split(";")
-      if(othetDataFields.length >= 2){
-        poid = othetDataFields(1).split("=")(1)
+      for(field <- othetDataFields){
+        if(field.startsWith("u9")){
+          poid = field.split("=")(1)
+        }
       }
     }
     
@@ -41,7 +43,7 @@ object CreatePOIDInHive {
     import sparkSession.sql
       
     val u9File = "C:\\Users\\sususaha.ORADEV\\Desktop\\work\\bhargav\\u9.csv"; 
-    val tableName = "poidTable"
+    val tableName = "poidTable1"
     
     val lines = sparkSession.sparkContext.textFile(u9File)
     val hiveData = lines.map(createHiveData) 
