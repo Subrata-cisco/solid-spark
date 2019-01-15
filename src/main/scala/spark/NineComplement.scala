@@ -2,9 +2,9 @@ package com.subrata.spark
 
 object NineComplement {
   
-  def main(args: Array[String]) {
+  
+  def compute(number:String):String = {
     
-    val number = "1234567890";
     val complArray = for(num <- number.toCharArray()) yield {
       val compl  = (('9').toInt  -  num.toInt + '0'.toInt).toChar; 
       compl
@@ -25,8 +25,14 @@ object NineComplement {
         }
     }
     
-    println(changedArray.mkString)
+    changedArray.mkString
+  }
+  
+  def main(args: Array[String]) {
+    val number = "1234567890";
+    val result = compute(number)
     
+    println(result)
   }
 
   
